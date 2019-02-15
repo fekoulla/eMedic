@@ -1,0 +1,21 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: aordogh
+ * Date: 15/02/2019
+ * Time: 15:41
+ */
+
+$dbHost = 'localhost';
+$dbName = 'emedic';
+$user   = 'emedic';
+$password = "emedic";
+
+try{
+  $pdo = new PDO('mysql:host='.$dbHost.';dbname='.$dbName.'', $user, $password);
+  $pdo->exec("set names utf8");
+  $this->oPDO = $pdo;
+}
+catch (PDOException $e){
+  exit($e->getMessage());
+}
