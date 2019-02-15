@@ -49,8 +49,8 @@
                 <div class="row">
                     <div class="col" style="margin-top: 300px; margin-left: 200px;">
                         <div class="input-group mb-3">
-                            <form action="ajax.php" method="get">
-                                <input type="text" class="form-control" name="saisie" placeholder="Saisissez vos informations" aria-label="informations" ><br>
+                            <form action="ajax.js" method="get">
+                                <input type="text" class="form-control" name="message" placeholder="Saisissez vos informations" aria-label="informations" ><br>
                                 <button id="submit" type="submit" onclick="myFunction()">Envoyer</button>
                             </form>                      
                         </div>
