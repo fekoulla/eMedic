@@ -38,7 +38,7 @@ function traitement_message($bdd, $message){
   $symptomes = $query_symptomes->fetchAll();
 
   foreach( $symptomes as $noms){
-    array_push ($noms_symptomes, array($noms['name'], $noms['idsymptome']));
+    array_push ($noms_symptomes, array(clean_text($noms['name']), $noms['idsymptome']));
   }
 
   for($i = 0; $i < sizeof($mots); $i++){
@@ -48,7 +48,7 @@ function traitement_message($bdd, $message){
       }
     }
   }
-
+  
   $correlation = implode(',', $correlation);
 
   $maladie = array();
@@ -116,7 +116,7 @@ function clean_text($input){
   ];
 
   $output = str_replace($cible, $rempl, $input);
-  strtolower($output);
+  $output = strtolower($output);
 
   return $output;
 }
