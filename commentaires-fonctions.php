@@ -1,14 +1,12 @@
 <?php
 
 // Racourci pour éviter les problèmes d'affichage des caractères HTML (<>&'") et les failles de sécurité XSS
-function e($texte)
-{
+function e($texte){
 	return htmlspecialchars($texte,ENT_QUOTES,'UTF-8');
 }
 
 // Trier par date déscendante
-function trier_par_date($c)
-{
+function trier_par_date($c){
 	usort($c,'s');
 	return $c;
 }
@@ -19,8 +17,7 @@ function s($a, $b){return $a['date'] == $b['date'] ? 0 : (($a['date'] < $b['date
 // Les commentaires sont stockés dans la variable de SESSION.
 // C'est pratique pour le TP, ca nous évite d'avoir besoin d'une base de données.
 // Bien évidemment, ca ne marche pas du tout pour une vraie application.
-function commentaires()
-{
+function commentaires(){
 	if(!isset($_SESSION['commentaires']))
 	{
 		$_SESSION['commentaires']=liste_initiale_commentaires();
@@ -28,8 +25,7 @@ function commentaires()
 	return $_SESSION['commentaires'];
 }
 
-function reinitialiser_commentaires()
-{
+function reinitialiser_commentaires(){
 	$_SESSION['commentaires']=liste_initiale_commentaires();
 }
 
@@ -37,13 +33,11 @@ function reinitialiser_commentaires()
 // Les commentaires sont stockés dans la variable de SESSION.
 // C'est pratique pour le TP, ca nous évite d'avoir besoin d'une base de données.
 // Bien évidemment, ca ne marche pas du tout pour une vraie application.
-function enregistrer_commentaires($commentaires)
-{
+function enregistrer_commentaires($commentaires){
 	$_SESSION['commentaires']=$commentaires;
 }
 
-function liste_initiale_commentaires()
-{
+function liste_initiale_commentaires(){
 	return
 		array(
 		 array('id'=>101,'nom'=>'Karim','date'=>1425283400,'contenu'=>"J'aime beaucoup ces cours de JavaScript !",'jaime'=>5),
@@ -70,15 +64,13 @@ function liste_initiale_commentaires()
 }
 
 // Renvoyer l'indice dans le tableau du commentaire ayant l'id $id
-function commentaires_chercher_cle_de_id($commentaires,$id)
-{
+function commentaires_chercher_cle_de_id($commentaires,$id){
 	foreach($commentaires as $k=>$c){if($c['id']==$id){return $k;}}
 	return false;
 }
 
 // Retourne le HTML nécessaire pour afficher un seul commentaire.
-function commentaire_rendu_en_html($com)
-{
+function commentaire_rendu_en_html($com){
 	return
 		'<div class="commentaire" data-com-id="'.$com['id'].'">'."\n".
 		'    <div class="entete-com">'."\n".

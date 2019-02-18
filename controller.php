@@ -7,3 +7,6 @@
  */
 
 require_once 'connexion.php';
+
+echo 'plop';
+?>
