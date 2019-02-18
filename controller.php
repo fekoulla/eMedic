@@ -83,7 +83,7 @@ function traitement_message($bdd, $message){
     <div class=\"container\" style=\"width:700px;\">
         <div class=\"row\">
             <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 50px;margin-right:320px; margin-left:15px;\">
-               Nous n\'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
+               Nous n'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
             </div>
         </div>
     </div>";

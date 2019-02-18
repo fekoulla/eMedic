@@ -44,12 +44,6 @@
               </div>
           </div>
 
-          <div class="container" style="width:700px;">
-              <div class="row">
-                  <div id="affichage_user" class="card card-body" style="margin-top: 30px;margin-left:320px; margin-right:15px;">
-                  </div>
-              </div>
-          </div>
         </div>
 
         <div class="container" style="width:700px;">
