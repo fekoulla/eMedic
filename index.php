@@ -1,3 +1,7 @@
+<?php
+  require_once 'connexion.php';
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
@@ -39,8 +43,8 @@
                 <div class="row">
                     <div class="col">
                     </div>
-                    <div class="col" style="margin-top: 50px;">
-                        <p id ="affichage" class="text-center"></p>
+                    <div id="affichage" class="col" style="margin-top: 50px;">
+                        <!-- <p id ="affichage" class="text-center"></p>-->
                     </div>
                     <div class="col">
                     </div>

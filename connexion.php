@@ -13,8 +13,7 @@ $password = "emedic";
 
 try{
   $pdo = new PDO('mysql:host='.$dbHost.';dbname='.$dbName.'', $user, $password);
-  $pdo->exec("set names utf8");
-  $this->oPDO = $pdo;
+  $pdo -> exec("set names utf8");
 }
 catch (PDOException $e){
   exit($e->getMessage());

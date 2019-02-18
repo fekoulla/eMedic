@@ -1,16 +1,16 @@
-$.get(
-  'index.php', // Le fichier cible côté serveur.
-  'true', // Nous utilisons true, pour dire que nous envoyons des données.
-  'send_response', // Nous renseignons uniquement le nom de la fonction de retour.
-  'html' // Format des données reçues.
-);
+$(document).ready(function(){
 
-function send_response(message){
-  // Du code pour gérer le retour de l'appel AJAX.
-  alert(message);
-}
+	$('#submit_ajax').click(function(){
 
-
-
-
-
+    $.ajax({
+      type: "GET",
+      url: "controller.php",
+      //data: {action: 'test'},
+      dataType:'html',
+      success: function(response){
+        console.log(response);
+        $('#affichage').html(response);
+      }
+    });
+  });
+});

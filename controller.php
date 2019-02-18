@@ -8,5 +8,10 @@
 
 require_once 'connexion.php';
 
-echo 'plop';
+$sth = $pdo->prepare("SELECT * FROM categorie");
+$sth->execute();
+$res = $sth->fetchAll();
+
+var_dump($res);
+
 ?>
