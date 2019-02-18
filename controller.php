@@ -73,7 +73,7 @@ function traitement_message($bdd, $message){
     echo "
     <div class=\"container\" style=\"width:700px;\">
             <div class=\"row\">
-                <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 50px;margin-right:320px; margin-left:15px;\">
+                <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
                    Vous avez possiblement un/une $diagnostique
                 </div>
             </div>
@@ -82,7 +82,7 @@ function traitement_message($bdd, $message){
     echo "
     <div class=\"container\" style=\"width:700px;\">
         <div class=\"row\">
-            <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 50px;margin-right:320px; margin-left:15px;\">
+            <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
                Nous n'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
             </div>
         </div>
