@@ -40,31 +40,29 @@
         </div>
 
         <div class="container">
-                <div class="row">
-                    <div class="col">
-                    </div>
-                    <div id="affichage" class="col" style="margin-top: 50px;">
-                        <!-- <p id ="affichage" class="text-center"></p>-->
-                    </div>
-                    <div class="col">
-                    </div>
+            <div class="row">
+                <div class="col">
                 </div>
+                <div id="affichage" class="col" style="margin-top: 50px;">
+                  <p> Coucou qu'est  ce qui t'arrives?</p>
+                </div>
+                <div class="col">
+                </div>
+            </div>
         </div>
 
         <div class="container">
-                <div class="row">
-                    <div class="col" style="margin-top: 20px; margin-left: 200px;">
-                        <div class="input-group mb-3">
-                          <div id="block-commentaires">
-                            <input id="message" type="text" class="form-control" name="message" placeholder="Saisissez vos informations" aria-label="informations" ><br>
-                            <button id="submit_ajax" type="submit">Envoyer</button>
-                            <div id="commentaires">
-                            </div>
-                          </div>
-                        </div>
+            <div class="row">
+                <div class="col" style="margin-top: 20px; margin-left: 200px;">
+                    <div class="input-group mb-3">
+                      <div id="block-commentaires">
+                        <input id="message" type="text" class="form-control" name="message" placeholder="Saisissez vos informations" aria-label="informations" ><br>
+                        <button id="submit_ajax" type="submit">Envoyer</button>
+                      </div>
                     </div>
                 </div>
             </div>
+        </div>
         
         <footer>
             <div class="container">

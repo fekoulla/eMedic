@@ -7,7 +7,7 @@ $(document).ready(function(){
     $.ajax({
       type: "GET",
       url: "controller.php",
-      data: {compteur: compteur},
+      data: {compteur: compteur, message: $('#message').val()},
       dataType:'html',
       success: function(response){
         console.log(response);
