@@ -8,10 +8,21 @@
 
 require_once 'connexion.php';
 
-$sth = $pdo->prepare("SELECT * FROM categorie");
-$sth->execute();
-$res = $sth->fetchAll();
+if(isset($_GET['compteur'])){
 
-var_dump($res);
+
+  if($_GET['compteur'] == 0){
+    echo 'ok tu vas mal</br>';
+  }elseif($_GET['compteur'] == 1){
+    echo 'en fait ca va ^^</br>';
+  }else{
+    $sth = $pdo->prepare("SELECT * FROM categorie");
+    $sth->execute();
+    $res = $sth->fetchAll();
+
+    var_dump($res);
+  }
+
+}
 
 ?>

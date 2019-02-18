@@ -1,16 +1,21 @@
 $(document).ready(function(){
 
-	$('#submit_ajax').click(function(){
+  var compteur = 0;
+
+  $('#submit_ajax').click(function(){
 
     $.ajax({
       type: "GET",
       url: "controller.php",
-      //data: {action: 'test'},
+      data: {compteur: compteur},
       dataType:'html',
       success: function(response){
         console.log(response);
-        $('#affichage').html(response);
+        $('#affichage').append(response);
       }
     });
+
+    compteur++;
   });
+
 });
