@@ -48,7 +48,7 @@ function traitement_message($bdd, $message){
       }
     }
   }
-  
+
   $correlation = implode(',', $correlation);
 
   $maladie = array();
@@ -69,9 +69,24 @@ function traitement_message($bdd, $message){
 
   $diagnostique = implode(',', $diagnostique);
   if(!empty($diagnostique)){
-    echo 'Vous avez possiblement un/une ' . $diagnostique;
+
+    echo "
+    <div class=\"container\" style=\"width:700px;\">
+            <div class=\"row\">
+                <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 50px;margin-right:320px; margin-left:15px;\">
+                   Vous avez possiblement un/une $diagnostique
+                </div>
+            </div>
+        </div>";
   }else{
-    echo 'Nous n\'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?';
+    echo "
+    <div class=\"container\" style=\"width:700px;\">
+        <div class=\"row\">
+            <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 50px;margin-right:320px; margin-left:15px;\">
+               Nous n\'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
+            </div>
+        </div>
+    </div>";
   }
 
 }

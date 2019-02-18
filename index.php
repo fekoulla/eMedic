@@ -35,20 +35,21 @@
             </div>
         </div>
 
-        <div class="container" style="width:700px;">
-            <div class="row">
-                <div id="affichage" class="card card-body" style="margin-top: 50px;margin-right:320px; margin-left:15px;">
-                    <p> Coucou qu'est  ce qui t'arrives? c'est la machine qui parle</p>
-                </div>
-            </div>
-        </div>
+        <div id="ecran">
+          <div class="container" style="width:700px;">
+              <div class="row">
+                  <div id="affichage_bot" class="card card-body" style="margin-top: 50px;margin-right:320px; margin-left:15px;">
+                      <p> Coucou qu'est  ce qui t'arrives? c'est la machine qui parle</p>
+                  </div>
+              </div>
+          </div>
 
-        <div class="container" style="width:700px;">
-            <div class="row">
-                <div id="affichage" class="card card-body" style="margin-top: 30px;margin-left:320px; margin-right:15px;">
-                    <p> Coucou qu'est  ce qui t'arrives? c'est le client qui parle</p>
-                </div>
-            </div>
+          <div class="container" style="width:700px;">
+              <div class="row">
+                  <div id="affichage_user" class="card card-body" style="margin-top: 30px;margin-left:320px; margin-right:15px;">
+                  </div>
+              </div>
+          </div>
         </div>
 
         <div class="container" style="width:700px;">

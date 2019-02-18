@@ -4,6 +4,8 @@ $(document).ready(function(){
 
   $('#submit_ajax').click(function(){
 
+    $('#affichage_user').append($('#message').val());
+
     $.ajax({
       type: "GET",
       url: "controller.php",
@@ -11,7 +13,7 @@ $(document).ready(function(){
       dataType:'html',
       success: function(response){
         console.log(response);
-        $('#affichage').append(response);
+        $('#ecran').append(response);
       }
     });
 
