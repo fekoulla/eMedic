@@ -51,21 +51,28 @@ function traitement_message($bdd, $message){
 
   $correlation = implode(',', $correlation);
 
-  $query_maladie = $bdd->prepare("SELECT * FROM maladie, symptome, correlation WHERE symptome.name LIKE '%" . $correlation . "%' 
-  AND (symptome.idsymptome = correlation.idSymptome
-	AND correlation.idMaladie = maladie.idmaladie)");
-  $query_maladie->execute();
-  $maladie = $query_maladie->fetchAll();
+  $maladie = array();
 
-  $diagnotique = array();
-
-  foreach ($maladie as $noms_maladie){
-    array_push($diagnotique, $noms_maladie[1]);
+  if(!empty($correlation)){
+    $query_maladie = $bdd->prepare("SELECT * FROM maladie, symptome, correlation WHERE symptome.name LIKE '%" . $correlation . "%' 
+    AND (symptome.idsymptome = correlation.idSymptome
+	  AND correlation.idMaladie = maladie.idmaladie)");
+    $query_maladie->execute();
+    $maladie = $query_maladie->fetchAll();
   }
 
-  $diagnotique = implode(',', $diagnotique);
+  $diagnostique = array();
 
-  echo 'Vous avez possiblement un/une ' . $diagnotique;
+  foreach ($maladie as $noms_maladie){
+    array_push($diagnostique, $noms_maladie[1]);
+  }
+
+  $diagnostique = implode(',', $diagnostique);
+  if(!empty($diagnostique)){
+    echo 'Vous avez possiblement un/une ' . $diagnostique;
+  }else{
+    echo 'Nous n\'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?';
+  }
 
 }
 
