@@ -21,12 +21,6 @@ if( isset($_GET['message_amelioration']) && trim($_GET['message_amelioration']) 
   $_GET['message'] = clean_text($_GET['message']);
   traitement_message($pdo, $_GET['message']);
 
-//  if($_GET['compteur'] == 0){
-//    traitement_message($pdo, $_GET['message']);
-//  }elseif($_GET['compteur'] == 1){
-//    traitement_message($pdo, $_GET['message']);
-//  }
-
 }elseif( !isset($_GET['message_amelioration']) ){
   echo "
     <div class=\"container\" >
@@ -37,7 +31,7 @@ if( isset($_GET['message_amelioration']) && trim($_GET['message_amelioration']) 
             <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
-          <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
             Vous n'avez pas saisi de message.
           </div>
         </div>
@@ -67,10 +61,10 @@ function traitement_message($bdd, $message){
     $maladie = $query_maladie->fetchAll();
   }
 
-  $id_maladie = $maladie[0]['idMaladie'];
   $diagnostic = array();
 
   if(!empty($maladie)){
+    $id_maladie = $maladie[0]['idMaladie'];
     array_push($diagnostic, $maladie[0]['name']);
     array_push($diagnostic, $maladie[0]['count']);
   }
@@ -87,7 +81,7 @@ function traitement_message($bdd, $message){
               <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
           </div>
           <div class=\"col-lg-5 col-md-5 col-sm-5\">
-              <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+              <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
                 Nous n'avons pas trouvé de maladie correspondant à vos symptomes($noms_symptomes). Pouvez-vous reformuler ?
               </div>
           </div>
@@ -224,7 +218,7 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
             <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
-          <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
             Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $maladie. Avec $nb_symptomes_message symptomes correspondants sur $nb_total_symptomes.<br>
             Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
             <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">

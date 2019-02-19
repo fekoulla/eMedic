@@ -1,9 +1,7 @@
-#affichage_user
-{
+.affichage_user{
     background-color: #d0f5d0;
 }
 
-#affichage_bot
-{
-    background-color: #cde8f1;
+.affichage_bot{
+    background-color: white;
 }

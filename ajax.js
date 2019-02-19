@@ -1,7 +1,5 @@
 $(document).ready(function(){
 
-  var compteur = 0;
-
   $("#message").on("keyup", function(event) {
     if (event.keyCode === 13) {
       $("#submit_ajax").click();
@@ -15,7 +13,7 @@ $(document).ready(function(){
       "                 <div class=\"col-lg-5 col-md-5 col-sm-5\"> \n" +
       "                 </div> \n" +
       "                 <div class=\"col-lg-5 col-md-5 col-sm-5\">\n" +
-      "                   <div id=\"affichage_user\" class=\"card card-body\" style=\"margin-top: 30px;\">\n" +
+      "                   <div class=\"card card-body affichage_user\" style=\"margin-top: 30px;\">\n" +
       $('#message').val()+
       "                   </div>\n" +
       "                 </div> \n" +
@@ -31,7 +29,7 @@ $(document).ready(function(){
     $.ajax({
       type: "GET",
       url: "controller.php",
-      data: {compteur: compteur, message: $('#message').val()},
+      data: {message: $('#message').val()},
       dataType:'html',
       success: function(response){
         $('#ecran').append(response);
