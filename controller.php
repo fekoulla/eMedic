@@ -148,34 +148,43 @@ function clean_text($input){
 
 function pop_up_amelioration($noms_symptomes, $diagnostic){
   return "
-    <div class=\"container\" style=\"width:700px;\">
+    <div class=\"container\" >
       <div class=\"row\">
-        <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-           Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $diagnostic. <br>
-           Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
-          <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">
-            Non
-          </button>
+        <div class=\"col-lg-1 col-md-1 col-sm-1\">
+        </div>
+        <div class=\"col-lg-1 col-md-1 col-sm-1\">
+            <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
+        </div>
+        <div class=\"col-lg-5 col-md-5 col-sm-5\">
+          <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+            Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $diagnostic. <br>
+            Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
+            <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">
+              Non
+            </button>
 
-          <div class=\"modal fade\" id=\"suggestionModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
-            <div class=\"modal-dialog\" role=\"document\">
-              <div class=\"modal-content\">
-                <div class=\"modal-header\">
-                  <h5 class=\"modal-title\" id=\"exampleModalLabel\">Suggestion</h5>
-                  <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
-                    <span aria-hidden=\"true\">&times;</span>
-                  </button>
-                </div>
-                <div class=\"modal-body\">
-                <p>Saisissez le diagnostic de votre médecin sous la forme: \"maladie, symptome1, symptome2 ...\"</p>
-                  <input id=\"message_amelioration\" type=\"text\" class=\"form-control\" name=\"message\" placeholder=\"maladie, symptome1, symptome2 ...\" aria-label=\"informations\">
-                </div> 
-                <div class=\"modal-footer\">
-                  <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
-                  <button id=\"submit_amelioration_bdd\" type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Sauvegarder</button>
+            <div class=\"modal fade\" id=\"suggestionModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+              <div class=\"modal-dialog\" role=\"document\">
+                <div class=\"modal-content\">
+                  <div class=\"modal-header\">
+                    <h5 class=\"modal-title\" id=\"exampleModalLabel\">Suggestion</h5>
+                    <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+                      <span aria-hidden=\"true\">&times;</span>
+                    </button>
+                  </div>
+                  <div class=\"modal-body\">
+                  <p>Saisissez le diagnostic de votre médecin sous la forme: \"maladie, symptome1, symptome2 ...\"</p>
+                    <input id=\"message_amelioration\" type=\"text\" class=\"form-control\" name=\"message\" placeholder=\"maladie, symptome1, symptome2 ...\" aria-label=\"informations\">
+                  </div> 
+                  <div class=\"modal-footer\">
+                    <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
+                    <button id=\"submit_amelioration_bdd\" type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Sauvegarder</button>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class=\"col-lg-5 col-md-5 col-sm-5\">
           </div>
         </div>
       </div>

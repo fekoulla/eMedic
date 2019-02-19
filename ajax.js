@@ -12,10 +12,18 @@ $(document).ready(function(){
 
     $('#ecran').append("<div class=\"container\" >\n" +
       "              <div class=\"row\">\n" +
-      "                 <div class=\"col-lg-7 col-md-7 col-sm-7\">\n" +
+      "                 <div class=\"col-lg-5 col-md-5 col-sm-5\"> \n" +
+      "                 </div> \n" +
+      "                 <div class=\"col-lg-5 col-md-5 col-sm-5\">\n" +
       "                   <div id=\"affichage_user\" class=\"card card-body\" style=\"margin-top: 30px;\">\n" +
       $('#message').val()+
       "                   </div>\n" +
+      "                 </div> \n" +
+      "                 <div class=\"col-lg-1 col-md-1 col-sm-1\"> \n" +
+      "                   <i class=\"fas fa-user fa-3x\" style=\"margin-top: 40px; margin-right: 10px;\"></i> \n" +
+      "                 </div> \n" +
+      "                  <div class=\"col\"> \n" +
+      "                 </div> \n" +
       "                 </div>\n" +
       "              </div>\n" +
       "          </div>");
