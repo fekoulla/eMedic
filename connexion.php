@@ -8,8 +8,8 @@
 
 $dbHost = 'localhost';
 $dbName = 'emedic';
-$user   = 'emedic';
-$password = "emedic";
+$user   = 'root';
+$password = "";
 
 try{
   $pdo = new PDO('mysql:host='.$dbHost.';dbname='.$dbName.'', $user, $password);
