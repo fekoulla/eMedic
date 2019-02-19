@@ -67,6 +67,7 @@ function traitement_message($bdd, $message){
     $maladie = $query_maladie->fetchAll();
   }
 
+  $id_maladie = $maladie[0]['idMaladie'];
   $diagnostic = array();
 
   if(!empty($maladie)){
@@ -74,9 +75,8 @@ function traitement_message($bdd, $message){
     array_push($diagnostic, $maladie[0]['count']);
   }
 
-  $diagnostic = implode(',', $diagnostic);
   if(!empty($diagnostic)){
-    echo pop_up_amelioration($noms_symptomes, $diagnostic);
+    echo pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie);
   }else{
     echo "
     <div class=\"container\" >
@@ -117,7 +117,7 @@ function extraire_symptomes($bdd, $message){
     for($j = 0; $j < sizeof($symptomes); $j++) {
 
       //On test si le mot et le symptome se ressemble (à une distance levenshtein de 2 max
-      if ( 2 >= levenshtein($symptomes[$j][0], $mots[$i],1, 1, 1)) {
+      if ( 1 >= levenshtein($symptomes[$j][0], $mots[$i],1, 1, 1)) {
 
         array_push($noms_symptomes, $symptomes[$j][0]);
         array_push($id_symptomes, $symptomes[$j][1]);
@@ -129,7 +129,7 @@ function extraire_symptomes($bdd, $message){
 
           $en_deux_mots = $mots[$i].' '.$mots[$i+1];
           //On applique le levenshtein sur le mot compose de 2
-          if ( 2 >= levenshtein($symptomes[$j][0], $en_deux_mots,1, 1, 1)) {
+          if ( 2 >= levenshtein($symptomes[$j][0], $en_deux_mots,1, 1, 1) ) {
             array_push($noms_symptomes, $symptomes[$j][0]);
             array_push($id_symptomes, $symptomes[$j][1]);
           }else{
@@ -138,7 +138,7 @@ function extraire_symptomes($bdd, $message){
 
               $en_trois_mots = $mots[$i].' '.$mots[$i + 1].' '.$mots[$i + 2];
               //On applique le levenshtein sur le mot compose de 3
-              if (2 >= levenshtein($symptomes[$j][0], $en_trois_mots, 1, 1, 1)) {
+              if ( 2 >= levenshtein($symptomes[$j][0], $en_trois_mots, 1, 1, 1) ) {
                 array_push($noms_symptomes, $symptomes[$j][0]);
                 array_push($id_symptomes, $symptomes[$j][1]);
               }
@@ -203,7 +203,18 @@ function clean_text($input){
   return $output;
 }
 
-function pop_up_amelioration($noms_symptomes, $diagnostic){
+function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
+
+  $maladie = $diagnostic[0];
+  $nb_symptomes_message = $diagnostic[1];
+
+  //Calcul le nombre total de symptomes correspondants à la maladie prédite
+  $query_maladie = $bdd->prepare('SELECT COUNT(correlation.idcorrelation) FROM correlation WHERE correlation.idMaladie = ' . $id_maladie);
+  $query_maladie->execute();
+  $nb_total_symptomes = $query_maladie->fetchAll();
+
+  $nb_total_symptomes = $nb_total_symptomes[0][0];
+
   return "
     <div class=\"container\" >
       <div class=\"row\">
@@ -214,7 +225,7 @@ function pop_up_amelioration($noms_symptomes, $diagnostic){
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
           <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
-            Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $diagnostic. <br>
+            Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $maladie. Avec $nb_symptomes_message symptomes correspondants sur $nb_total_symptomes.<br>
             Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
             <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">
               Non
@@ -260,24 +271,55 @@ function amelioration_bdd($bdd, $message_amelioration){
   unset($message_amelioration[0]);
   $symptomes = $message_amelioration;
 
-  var_dump($maladie);
-  var_dump($symptomes);
-
   if(!empty($maladie) && !empty($symptomes)){
-
-    //Ajoute la maladie dans la bdd
+    //Vérification de l'existence ou non de la maladie
     $verif_maladie_existe = $bdd->prepare('SELECT name FROM maladie WHERE name=' . $maladie);
-    if( !empty($verif_maladie_existe)){
-      $insert_maladie = $bdd->prepare("INSERT INTO maladie (name) VALUES (\'$maladie\')");
-      $insert_maladie->execute();
 
-      //Ajout le symptome dans la bdd
+    //Si elle n'existe pas, on insère le tout
+    if( !empty($verif_maladie_existe)){
+      // Insertion Maladie et récupération lastInsertId
+      $req = 'INSERT INTO maladie (name)
+                  VALUES (:name)';
+
+      $insert_maladie = $bdd->prepare($req);
+      $data['name'] = ucfirst($maladie);
+      $insert_maladie->execute($data);
+      $lastIdMaladie = $bdd->lastInsertId();
+
+      // On prépare l'array destiné à recueillir tous les ID des symptomes
+      $lastIdSymptome = array();
+
+      // Insertion Symptome et récupération lastInsertId
       foreach ($symptomes as $sympt){
+        // On vérifie l'existence ou non du symptome en cours dans le foreach
         $verif_symptome_existe = $bdd->prepare('SELECT name FROM symptome WHERE name=' . $sympt);
-        if( !empty($verif_symptome_existe)) {
-          $insert_symptome = $bdd->prepare("INSERT INTO symptome (name) VALUES (\'$sympt\')");
-          $insert_symptome->execute();
+
+        // S'il n'exite pas, on l'insère
+        if(!empty($verif_symptome_existe)){
+          $req = 'INSERT INTO symptome (name)
+                          VALUES (:name)';
+
+          $insert_symptome = $bdd->prepare($req);
+          $data['name'] = ucfirst($sympt);
+          $insert_symptome->execute($data);
+
+          // Ici c'est important, on récupère CHAQUE lastInsertId des symptomes insérés et on le place dans l'array
+          array_push($lastIdSymptome, $bdd->lastInsertId());
         }
+      }
+
+      // Une fois que la maladie et les symptomes ont été insérés, on effectue la jonction
+      // en insérant dans la table corrélation pour chaque symptome
+      foreach ($symptomes as $key => $value){
+        $key--;
+        $data = array();
+        $req = 'INSERT INTO correlation (idMaladie, idSymptome)
+                      VALUES (:idMaladie, :idSymptome)';
+
+        $insert_correlation = $bdd->prepare($req);
+        $data['idMaladie']  = $lastIdMaladie;
+        $data['idSymptome'] = $lastIdSymptome[$key];
+        $insert_correlation->execute($data);
       }
     }
   }
