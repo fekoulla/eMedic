@@ -40,24 +40,29 @@
         </div>
 
         <div id="ecran">
-          <div class="container">
-              <div class="row">
-                  <div class="col-lg-1 col-md-1 col-sm-1">
-                      <i class="fas fa-robot fa-3x" style="margin-top: 50px; margin-right: 10px;"></i>
-                  </div>
-                  <div class="col-lg-5 col-md-5 col-sm-5">
-                      <div id="affichage_bot" class="card card-body" style="margin-top: 50px;">
-                          <p> Coucou qu'est  ce qui t'arrives? c'est la machine qui parle</p>
-                      </div>
-                  </div>
-              </div>
-          </div>
-
+             <div class="container">
+                <div class="row">
+                    <div class="col">
+                    </div>
+                    <div class="col-lg-1 col-md-1 col-sm-1">
+                        <i class="fas fa-robot fa-3x" style="margin-top: 50px; margin-right: 10px;"></i>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                        <div id="affichage_bot" class="card card-body" style="margin-top: 50px; ">
+                            <p> Coucou qu'est  ce qui t'arrives? c'est la machine qui parle</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 col-sm-5">
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="container" style="width:700px;">
+        <div class="container" >
             <div class="row">
-                <div class="col" style="margin-top: 25px; width:200px; margin-bottom: 160px;">
+                <div class="col">
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-10" style="margin-top: 25px; margin-bottom: 160px;">
                     <div class="input-group mb-3">
                       <div class="input-group" id="block-commentaires">
                             <input id="message" type="text" class="form-control" name="message" placeholder="Saisissez vos informations" aria-label="informations">
@@ -66,6 +71,8 @@
                             </span>
                         </div>
                     </div>
+                </div>
+                <div class="col">
                 </div>
             </div>
         </div>
