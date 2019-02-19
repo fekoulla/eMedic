@@ -49,30 +49,10 @@ if( isset($_GET['message_amelioration']) && trim($_GET['message_amelioration']) 
 
 function traitement_message($bdd, $message){
 
-  $mots = explode(' ', $message);
-  $noms_symptomes = array();
-  $id_symptomes = array();
-  $symptomes = array();
+  $symptomes = extraire_symptomes($bdd, $message);
 
-  $query_symptomes = $bdd->prepare("SELECT name, idsymptome FROM symptome");
-  $query_symptomes->execute();
-  $fetch_symptomes = $query_symptomes->fetchAll();
-
-  foreach( $fetch_symptomes as $noms){
-    array_push ($symptomes, array(clean_text($noms['name']), $noms['idsymptome']));
-  }
-
-  for($i = 0; $i < sizeof($mots); $i++){
-    for($j = 0; $j < sizeof($symptomes); $j++) {
-      if ( 2 >= levenshtein($symptomes[$j][0], $mots[$i],1, 1, 1)) {
-        array_push($noms_symptomes, $symptomes[$j][0]);
-        array_push($id_symptomes, $symptomes[$j][1]);
-      }
-    }
-  }
-
-  $noms_symptomes = implode(',', $noms_symptomes);
-  $id_symptomes = implode(',', $id_symptomes);
+  $noms_symptomes = implode(',', $symptomes[0]);
+  $id_symptomes = implode(',', $symptomes[1]);
   $maladie = array();
 
   if(!empty($id_symptomes)){
@@ -116,7 +96,64 @@ function traitement_message($bdd, $message){
         </div>
     </div>";
   }
+}
 
+function extraire_symptomes($bdd, $message){
+
+  $mots = explode(' ', $message);
+  $noms_symptomes = array();
+  $id_symptomes = array();
+  $symptomes = array();
+
+  $query_symptomes = $bdd->prepare("SELECT name, idsymptome FROM symptome");
+  $query_symptomes->execute();
+  $fetch_symptomes = $query_symptomes->fetchAll();
+
+  foreach( $fetch_symptomes as $noms){
+    array_push ($symptomes, array(clean_text($noms['name']), $noms['idsymptome']));
+  }
+
+  for($i = 0; $i < sizeof($mots); $i++){
+    for($j = 0; $j < sizeof($symptomes); $j++) {
+
+      //On test si le mot et le symptome se ressemble (à une distance levenshtein de 2 max
+      if ( 2 >= levenshtein($symptomes[$j][0], $mots[$i],1, 1, 1)) {
+
+        array_push($noms_symptomes, $symptomes[$j][0]);
+        array_push($id_symptomes, $symptomes[$j][1]);
+
+      //Si on ne trouve pas de symptome on test en prennant 2(vision trouble) mots ensembles puis 3(mal au bras)
+      }else{
+
+        if($i < sizeof($mots)-1){
+
+          $en_deux_mots = $mots[$i].' '.$mots[$i+1];
+          //On applique le levenshtein sur le mot compose de 2
+          if ( 2 >= levenshtein($symptomes[$j][0], $en_deux_mots,1, 1, 1)) {
+            array_push($noms_symptomes, $symptomes[$j][0]);
+            array_push($id_symptomes, $symptomes[$j][1]);
+          }else{
+
+            if($i < sizeof($mots)-2) {
+
+              $en_trois_mots = $mots[$i].' '.$mots[$i + 1].' '.$mots[$i + 2];
+              //On applique le levenshtein sur le mot compose de 3
+              if (2 >= levenshtein($symptomes[$j][0], $en_trois_mots, 1, 1, 1)) {
+                array_push($noms_symptomes, $symptomes[$j][0]);
+                array_push($id_symptomes, $symptomes[$j][1]);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  $resultats = array();
+  array_push($resultats, $noms_symptomes);
+  array_push($resultats, $id_symptomes);
+
+  return $resultats;
 }
 
 //Supprime les accents, et tous les caractères non utf8
