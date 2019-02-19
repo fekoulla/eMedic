@@ -184,7 +184,10 @@ function pop_up_amelioration($noms_symptomes, $diagnostic){
   ";
 }
 
+//Permet d'ajouter des maladies avec leurs symptomes
 function amelioration_bdd($bdd, $message_amelioration){
+
+  $message_amelioration = clean_text($message_amelioration);
 
   $message_amelioration = explode(',', $message_amelioration);
   $maladie = $message_amelioration[0];
