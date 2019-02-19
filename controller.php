@@ -209,7 +209,7 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
 
   $nb_total_symptomes = $nb_total_symptomes[0][0];
 
-  return "
+  $popup =  "
     <div class=\"container\" >
       <div class=\"row\">
         <div class=\"col-lg-1 col-md-1 col-sm-1\">
@@ -250,9 +250,15 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
           </div>
         </div>
       </div>
-  </div>
-  <script src=\"ajax_amelioration.js?newversion\"></script>
-  ";
+  </div>";
+
+  if(isset($_GET['compteur'])){
+    if($_GET['compteur'] == 0){
+      $popup = $popup ."<script src=\"ajax_amelioration.js?newversion\"></script>";
+    }
+  }
+
+  return $popup;
 }
 
 //Permet d'ajouter des maladies avec leurs symptomes

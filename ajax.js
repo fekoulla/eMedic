@@ -1,5 +1,7 @@
 $(document).ready(function(){
 
+  var compteur = 0;
+
   $("#message").on("keyup", function(event) {
     if (event.keyCode === 13) {
       $("#submit_ajax").click();
@@ -29,11 +31,12 @@ $(document).ready(function(){
     $.ajax({
       type: "GET",
       url: "controller.php",
-      data: {message: $('#message').val()},
+      data: { compteur: compteur, message: $('#message').val()},
       dataType:'html',
       success: function(response){
         $('#ecran').append(response);
       }
     });
+    compteur++;
   });
 });
