@@ -29,10 +29,19 @@ if( isset($_GET['message_amelioration']) && trim($_GET['message_amelioration']) 
 
 }elseif( !isset($_GET['message_amelioration']) ){
   echo "
-    <div class=\"container\" style=\"width:700px;\">
+    <div class=\"container\" >
       <div class=\"row\">
-        <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-           Vous n'avez pas saisi de message.
+        <div class=\"col-lg-1 col-md-1 col-sm-1\">
+        </div>
+        <div class=\"col-lg-1 col-md-1 col-sm-1\">
+            <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
+        </div>
+        <div class=\"col-lg-5 col-md-5 col-sm-5\">
+          <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+            Vous n'avez pas saisi de message.
+          </div>
+        </div>
+        <div class=\"col-lg-5 col-md-5 col-sm-5\">
         </div>
       </div>
     </div>";
@@ -79,20 +88,31 @@ function traitement_message($bdd, $message){
   }
 
   $diagnostic = array();
-  array_push($diagnostic, $maladie[0]['name']);
-  array_push($diagnostic, $maladie[0]['count']);
-  var_dump($diagnostic);
+
+  if(!empty($maladie)){
+    array_push($diagnostic, $maladie[0]['name']);
+    array_push($diagnostic, $maladie[0]['count']);
+  }
 
   $diagnostic = implode(',', $diagnostic);
   if(!empty($diagnostic)){
     echo pop_up_amelioration($noms_symptomes, $diagnostic);
   }else{
     echo "
-    <div class=\"container\" style=\"width:700px;\">
+    <div class=\"container\" >
         <div class=\"row\">
-            <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-               Nous n'avons pas trouvé de maladie correspondant à vos symptomes($noms_symptomes). Pouvez-vous reformuler ?
-            </div>
+          <div class=\"col-lg-1 col-md-1 col-sm-1\">
+          </div>
+          <div class=\"col-lg-1 col-md-1 col-sm-1\">
+              <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
+          </div>
+          <div class=\"col-lg-5 col-md-5 col-sm-5\">
+              <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;\">
+                Nous n'avons pas trouvé de maladie correspondant à vos symptomes($noms_symptomes). Pouvez-vous reformuler ?
+              </div>
+          </div>
+          <div class=\"col-lg-5 col-md-5 col-sm-5\">
+          </div>
         </div>
     </div>";
   }
