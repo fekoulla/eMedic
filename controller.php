@@ -24,7 +24,14 @@ if( isset($_GET['message']) && trim($_GET['message']) != ''){
 //  }
 
 }else{
-  echo 'Vous n\'avez pas saisi de message</br>';
+  echo "
+    <div class=\"container\" style=\"width:700px;\">
+        <div class=\"row\">
+            <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
+               Vous n'avez pas saisi de message.
+            </div>
+        </div>
+    </div>";
 }
 
 function traitement_message($bdd, $message){
@@ -61,20 +68,21 @@ function traitement_message($bdd, $message){
     $maladie = $query_maladie->fetchAll();
   }
 
-  $diagnostique = array();
+  $diagnostic = array();
 
   foreach ($maladie as $noms_maladie){
-    array_push($diagnostique, $noms_maladie[1]);
+    array_push($diagnostic, $noms_maladie[1]);
   }
 
-  $diagnostique = implode(',', $diagnostique);
-  if(!empty($diagnostique)){
+  $diagnostic = implode(',', $diagnostic);
+  if(!empty($diagnostic)){
 
     echo "
     <div class=\"container\" style=\"width:700px;\">
             <div class=\"row\">
                 <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-                   Vous avez possiblement un/une $diagnostique
+                   Les symptomes repérés sont: $correlation. D'après nous vous avez possiblement un/une $diagnostic.
+                   Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome.
                 </div>
             </div>
         </div>";
@@ -83,7 +91,7 @@ function traitement_message($bdd, $message){
     <div class=\"container\" style=\"width:700px;\">
         <div class=\"row\">
             <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-               Nous n'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
+               Nous n'avons pas trouvé de maladie correspondant à vos symptomes($correlation). Pouvez-vous reformuler ?
             </div>
         </div>
     </div>";
@@ -132,6 +140,8 @@ function clean_text($input){
 
   $output = str_replace($cible, $rempl, $input);
   $output = strtolower($output);
+  $output = htmlspecialchars($output);
+  $output = htmlentities($output);
 
   return $output;
 }
