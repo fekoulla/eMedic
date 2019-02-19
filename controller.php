@@ -81,8 +81,32 @@ function traitement_message($bdd, $message){
     <div class=\"container\" style=\"width:700px;\">
             <div class=\"row\">
                 <div id=\"affichage_bot\" class=\"card card-body\" style=\"margin-top: 30px;margin-right:320px; margin-left:15px;\">
-                   Les symptomes repérés sont: $correlation. D'après nous vous avez possiblement un/une $diagnostic.
-                   Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome.
+                   Les symptomes repérés sont: $correlation. D'après nous vous avez possiblement un/une $diagnostic. <br>
+                   Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
+                    <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">
+                      Non
+                    </button>
+
+                    <div class=\"modal fade\" id=\"suggestionModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">
+                      <div class=\"modal-dialog\" role=\"document\">
+                        <div class=\"modal-content\">
+                          <div class=\"modal-header\">
+                            <h5 class=\"modal-title\" id=\"exampleModalLabel\">Suggestion</h5>
+                            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">
+                              <span aria-hidden=\"true\">&times;</span>
+                            </button>
+                          </div>
+                          <div class=\"modal-body\">
+                            ...
+                          </div>
+                          <div class=\"modal-footer\">
+                            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
+                            <button type=\"button\" class=\"btn btn-primary\">Sauvegarder</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                 </div>
             </div>
         </div>";

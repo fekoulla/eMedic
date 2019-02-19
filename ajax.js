@@ -4,11 +4,13 @@ $(document).ready(function(){
 
   $('#submit_ajax').click(function(){
 
-    $('#ecran').append("<div class=\"container\" style=\"width:700px;\">\n" +
+    $('#ecran').append("<div class=\"container\" >\n" +
       "              <div class=\"row\">\n" +
-      "                  <div id=\"affichage_user\" class=\"card card-body\" style=\"margin-top: 30px;margin-left:320px; margin-right:15px;\">\n" +
+      "                 <div class=\"col-lg-7 col-md-7 col-sm-7\">\n" +
+      "                   <div id=\"affichage_user\" class=\"card card-body\" style=\"margin-top: 30px;\">\n" +
       $('#message').val()+
-      "                  </div>\n" +
+      "                   </div>\n" +
+      "                 </div>\n" +
       "              </div>\n" +
       "          </div>");
 
