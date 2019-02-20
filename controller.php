@@ -294,10 +294,12 @@ function amelioration_bdd($bdd, $message_amelioration){
       // Insertion Symptome et récupération lastInsertId
       foreach ($symptomes as $sympt){
         // On vérifie l'existence ou non du symptome en cours dans le foreach
-        $verif_symptome_existe = $bdd->prepare('SELECT name FROM symptome WHERE name=' . $sympt);
+        $verif_symptome_existe = $bdd->prepare('SELECT * FROM symptome WHERE LOWER(symptome.name)=\'' . strtolower($sympt) .'\'');
+        $verif_symptome_existe->execute();
+        $existanceSymptome = $verif_symptome_existe->fetch();
 
         // S'il n'exite pas, on l'insère
-        if(!empty($verif_symptome_existe)){
+        if(empty($existanceSymptome)){
           $req = 'INSERT INTO symptome (name)
                           VALUES (:name)';
 
@@ -337,10 +339,12 @@ function amelioration_bdd($bdd, $message_amelioration){
         // Insertion Symptome et récupération lastInsertId
         foreach ($symptomes as $sympt){
           // On vérifie l'existence ou non du symptome en cours dans le foreach
-          $verif_symptome_existe = $bdd->prepare('SELECT name FROM symptome WHERE name=' . $sympt);
+          $verif_symptome_existe = $bdd->prepare('SELECT * FROM symptome WHERE LOWER(symptome.name)=\'' . strtolower($sympt) .'\'');
+          $verif_symptome_existe->execute();
+          $existanceSymptome = $verif_symptome_existe->fetch();
 
           // S'il n'exite pas, on l'insère
-          if(!empty($verif_symptome_existe)){
+          if(empty($existanceSymptome)){
             $req = 'INSERT INTO symptome (name)
                             VALUES (:name)';
 
@@ -350,22 +354,25 @@ function amelioration_bdd($bdd, $message_amelioration){
 
             // Ici c'est important, on récupère CHAQUE lastInsertId des symptomes insérés et on le place dans l'array
             array_push($lastIdSymptome, $bdd->lastInsertId());
+
+            // Une fois que la maladie et les symptomes ont été insérés, on effectue la jonction
+            // en insérant dans la table corrélation pour chaque symptome en le liant à la maladie en cours
+            foreach ($symptomes as $key => $value){
+              $key--;
+              $data = array();
+              $req = 'INSERT INTO correlation (idMaladie, idSymptome)
+                            VALUES (:idMaladie, :idSymptome)';
+
+              $insert_correlation = $bdd->prepare($req);
+              $data['idMaladie']  = $updateMaladie[0];
+              $data['idSymptome'] = $lastIdSymptome[$key];
+              $insert_correlation->execute($data);
+            }
+
           }
         }
 
-        // Une fois que la maladie et les symptomes ont été insérés, on effectue la jonction
-        // en insérant dans la table corrélation pour chaque symptome en le liant à la maladie en cours
-        foreach ($symptomes as $key => $value){
-          $key--;
-          $data = array();
-          $req = 'INSERT INTO correlation (idMaladie, idSymptome)
-                        VALUES (:idMaladie, :idSymptome)';
 
-          $insert_correlation = $bdd->prepare($req);
-          $data['idMaladie']  = $updateMaladie[0];
-          $data['idSymptome'] = $lastIdSymptome[$key];
-          $insert_correlation->execute($data);
-        }
     }
 
   }
