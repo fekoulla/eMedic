@@ -47,6 +47,8 @@ function traitement_message($bdd, $message){
 
   $noms_symptomes = implode(',', $symptomes[0]);
   $id_symptomes = implode(',', $symptomes[1]);
+  $noms_symptomes_affichage = implode(',', $symptomes[2]);
+
   $maladie = array();
 
   if(!empty($id_symptomes)){
@@ -70,7 +72,7 @@ function traitement_message($bdd, $message){
   }
 
   if(!empty($diagnostic)){
-    echo pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie);
+    echo pop_up_amelioration($bdd, $noms_symptomes_affichage, $diagnostic, $id_maladie);
   }else{
     echo "
     <div class=\"container\" >
@@ -107,34 +109,48 @@ function extraire_symptomes($bdd, $message){
     array_push ($symptomes, array(clean_text($noms['name']), $noms['idsymptome']));
   }
 
+  $symptome_original = array();
+  $noms_symptomes_affichage = array();
+
+  //Fait une copie de l'array $mots
+  foreach ( $symptomes as $sympt ){
+    array_push($symptome_original, $sympt);
+  }
+
   for($i = 0; $i < sizeof($mots); $i++){
     for($j = 0; $j < sizeof($symptomes); $j++) {
+
+      $mots[$i] = str_replace(' ','',$mots[$i]);
+      $symptomes[$j] = str_replace(' ','',$symptomes[$j]);
 
       //On test si le mot et le symptome se ressemble (à une distance levenshtein de 2 max
       if ( 1 >= levenshtein($symptomes[$j][0], $mots[$i],1, 1, 1)) {
 
         array_push($noms_symptomes, $symptomes[$j][0]);
         array_push($id_symptomes, $symptomes[$j][1]);
+        array_push($noms_symptomes_affichage, $symptome_original[$j][0]);
 
-      //Si on ne trouve pas de symptome on test en prennant 2(vision trouble) mots ensembles puis 3(mal au bras)
+        //Si on ne trouve pas de symptome on test en prennant 2(vision trouble) mots ensembles puis 3(mal au bras)
       }else{
 
         if($i < sizeof($mots)-1){
 
-          $en_deux_mots = $mots[$i].' '.$mots[$i+1];
+          $en_deux_mots = $mots[$i].$mots[$i+1];
           //On applique le levenshtein sur le mot compose de 2
           if ( 2 >= levenshtein($symptomes[$j][0], $en_deux_mots,1, 1, 1) ) {
             array_push($noms_symptomes, $symptomes[$j][0]);
             array_push($id_symptomes, $symptomes[$j][1]);
+            array_push($noms_symptomes_affichage, $symptome_original[$j][0]);
           }else{
 
             if($i < sizeof($mots)-2) {
 
-              $en_trois_mots = $mots[$i].' '.$mots[$i + 1].' '.$mots[$i + 2];
+              $en_trois_mots = $mots[$i].$mots[$i + 1].$mots[$i + 2];
               //On applique le levenshtein sur le mot compose de 3
               if ( 2 >= levenshtein($symptomes[$j][0], $en_trois_mots, 1, 1, 1) ) {
                 array_push($noms_symptomes, $symptomes[$j][0]);
                 array_push($id_symptomes, $symptomes[$j][1]);
+                array_push($noms_symptomes_affichage, $symptome_original[$j][0]);
               }
             }
           }
@@ -143,9 +159,14 @@ function extraire_symptomes($bdd, $message){
     }
   }
 
+  $noms_symptomes = array_unique($noms_symptomes);
+  $id_symptomes = array_unique($id_symptomes);
+  $noms_symptomes_affichage = array_unique($noms_symptomes_affichage);
+
   $resultats = array();
   array_push($resultats, $noms_symptomes);
   array_push($resultats, $id_symptomes);
+  array_push($resultats, $noms_symptomes_affichage);
 
   return $resultats;
 }
@@ -266,8 +287,6 @@ function amelioration_bdd($bdd, $message_amelioration){
 
 
   $message_amelioration = clean_text($message_amelioration);
-  //Supprime les espaces présents dans le message afin d'éviter d'inserer des espaces en bdd
-  $message_amelioration = str_replace(' ','',$message_amelioration);
 
   $message_amelioration = explode(',', $message_amelioration);
   $maladie = $message_amelioration[0];
