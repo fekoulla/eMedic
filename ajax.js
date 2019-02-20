@@ -15,7 +15,7 @@ $(document).ready(function(){
       "                 <div class=\"col-lg-5 col-md-5 col-sm-5\"> \n" +
       "                 </div> \n" +
       "                 <div class=\"col-lg-5 col-md-5 col-sm-5\">\n" +
-      "                   <div class=\"card card-body affichage_user\" style=\"margin-top: 30px;\">\n" +
+      "                   <div class=\"card card-body affichage_user\" style=\"margin-top: 30px; background-color: #d0f5d0;\">\n" +
       $('#message').val()+
       "                   </div>\n" +
       "                 </div> \n" +

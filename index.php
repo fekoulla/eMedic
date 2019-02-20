@@ -48,7 +48,7 @@
                         <i class="fas fa-robot fa-3x" style="margin-top: 50px; margin-right: 10px;"></i>
                     </div>
                     <div class="col-lg-5 col-md-5 col-sm-5">
-                        <div class="card card-body affichage_bot" style="margin-top: 50px; ">
+                        <div class="card card-body affichage_bot" style="margin-top: 50px; background-color: rgb(211,234,240);">
                             <p> Coucou qu'est  ce qui t'arrives? c'est la machine qui parle</p>
                         </div>
                     </div>

@@ -31,7 +31,7 @@ if( isset($_GET['message_amelioration']) && trim($_GET['message_amelioration']) 
             <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
-          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
+          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px; background-color: rgb(211,234,240);\">
             Vous n'avez pas saisi de message.
           </div>
         </div>
@@ -83,7 +83,7 @@ function traitement_message($bdd, $message){
               <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
           </div>
           <div class=\"col-lg-5 col-md-5 col-sm-5\">
-              <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
+              <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px; background-color: rgb(211,234,240);\">
                 Nous n'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
               </div>
           </div>
@@ -240,7 +240,7 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
             <i class=\"fas fa-robot fa-3x\" style=\"margin-top: 50px; margin-right: 10px;\"></i>
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
-          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
+          <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px; background-color: rgb(211,234,240);\">
             Les symptomes repérés sont: $noms_symptomes. D'après l'application, vous avez $pourcentage des symptomes d'un/d'une $maladie. Considerer qu'en dessous de 65% il n'est pas sur que vous ayez cette maladie.<br/>
             Avec $nb_symptomes_message symptomes correspondants sur $nb_total_symptomes.<br/>
             Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br/>
