@@ -229,6 +229,7 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
   $nb_total_symptomes = $query_maladie->fetchAll();
 
   $nb_total_symptomes = $nb_total_symptomes[0][0];
+  $pourcentage = round(($nb_symptomes_message*100)/$nb_total_symptomes) .'%';
 
   $popup =  "
     <div class=\"container\" >
@@ -240,8 +241,9 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
         </div>
         <div class=\"col-lg-5 col-md-5 col-sm-5\">
           <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
-            Les symptomes repérés sont: $noms_symptomes. D'après nous vous avez possiblement un/une $maladie. Avec $nb_symptomes_message symptomes correspondants sur $nb_total_symptomes.<br>
-            Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br>
+            Les symptomes repérés sont: $noms_symptomes. D'après l'application, vous avez $pourcentage des symptomes d'un/d'une $maladie. Considerer qu'en dessous de 65% il n'est pas sur que vous ayez cette maladie.<br/>
+            Avec $nb_symptomes_message symptomes correspondants sur $nb_total_symptomes.<br/>
+            Aidez nous à améliorer notre système. En revenant vers nous quand vous aurez vue un médecin afin de nous communiquer votre malade/symptome. <br/>
             <button type=\"button\" class=\"btn btn-link\" data-toggle=\"modal\" data-target=\"#suggestionModal\" style=\"text-align: right;\">
               Non
             </button>
