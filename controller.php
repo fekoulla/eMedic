@@ -84,7 +84,7 @@ function traitement_message($bdd, $message){
           </div>
           <div class=\"col-lg-5 col-md-5 col-sm-5\">
               <div class=\"card card-body affichage_bot\" style=\"margin-top: 30px;\">
-                Nous n'avons pas trouvé de maladie correspondant à vos symptomes($noms_symptomes). Pouvez-vous reformuler ?
+                Nous n'avons pas trouvé de maladie correspondant à vos symptomes. Pouvez-vous reformuler ?
               </div>
           </div>
           <div class=\"col-lg-5 col-md-5 col-sm-5\">
