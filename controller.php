@@ -264,7 +264,10 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
 //Permet d'ajouter des maladies avec leurs symptomes
 function amelioration_bdd($bdd, $message_amelioration){
 
+
   $message_amelioration = clean_text($message_amelioration);
+  //Supprime les espaces présents dans le message afin d'éviter d'inserer des espaces en bdd
+  $message_amelioration = str_replace(' ','',$message_amelioration);
 
   $message_amelioration = explode(',', $message_amelioration);
   $maladie = $message_amelioration[0];
