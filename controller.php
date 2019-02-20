@@ -51,9 +51,9 @@ function traitement_message($bdd, $message){
 
   if(!empty($id_symptomes)){
     $query_maladie = $bdd->prepare("SELECT symptome.name, maladie.name, correlation.idMaladie, COUNT(correlation.idMaladie) count
-    FROM symptome, correlation, maladie 
-    WHERE symptome.idsymptome IN ($id_symptomes) 
-    AND symptome.idsymptome = correlation.idSymptome 
+    FROM symptome, correlation, maladie
+    WHERE symptome.idsymptome IN ($id_symptomes)
+    AND symptome.idsymptome = correlation.idSymptome
     AND correlation.idMaladie = maladie.idmaladie
     GROUP BY maladie.name
     ORDER BY COUNT(*) DESC");
@@ -237,7 +237,7 @@ function pop_up_amelioration($bdd, $noms_symptomes, $diagnostic, $id_maladie){
                   <div class=\"modal-body\">
                   <p>Saisissez le diagnostic de votre médecin sous la forme: \"maladie, symptome1, symptome2 ...\"</p>
                     <input id=\"message_amelioration\" type=\"text\" class=\"form-control\" name=\"message\" placeholder=\"maladie, symptome1, symptome2 ...\" aria-label=\"informations\">
-                  </div> 
+                  </div>
                   <div class=\"modal-footer\">
                     <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\">Fermer</button>
                     <button id=\"submit_amelioration_bdd\" type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Sauvegarder</button>
@@ -273,10 +273,12 @@ function amelioration_bdd($bdd, $message_amelioration){
 
   if(!empty($maladie) && !empty($symptomes)){
     //Vérification de l'existence ou non de la maladie
-    $verif_maladie_existe = $bdd->prepare('SELECT name FROM maladie WHERE name=' . $maladie);
+    $verif_maladie_existe = $bdd->prepare('SELECT * FROM maladie WHERE LOWER(maladie.name)=\'' . strtolower($maladie) .'\'');
+    $verif_maladie_existe->execute();
+    $existanceMaladie = $verif_maladie_existe->fetch();
 
     //Si elle n'existe pas, on insère le tout
-    if( !empty($verif_maladie_existe)){
+    if(empty($existanceMaladie)){
       // Insertion Maladie et récupération lastInsertId
       $req = 'INSERT INTO maladie (name)
                   VALUES (:name)';
@@ -322,6 +324,50 @@ function amelioration_bdd($bdd, $message_amelioration){
         $insert_correlation->execute($data);
       }
     }
+    // En revanche, si cette maladie existe, nous devons lier ses symptomes
+    else
+    {
+        $maladie_a_mettre_a_jour = $bdd->prepare('SELECT * FROM maladie WHERE LOWER(maladie.name)=\'' . strtolower($maladie) .'\'');
+        $maladie_a_mettre_a_jour->execute();
+        $updateMaladie = $maladie_a_mettre_a_jour->fetch();
+
+        // On prépare l'array destiné à recueillir tous les ID des symptomes
+        $lastIdSymptome = array();
+
+        // Insertion Symptome et récupération lastInsertId
+        foreach ($symptomes as $sympt){
+          // On vérifie l'existence ou non du symptome en cours dans le foreach
+          $verif_symptome_existe = $bdd->prepare('SELECT name FROM symptome WHERE name=' . $sympt);
+
+          // S'il n'exite pas, on l'insère
+          if(!empty($verif_symptome_existe)){
+            $req = 'INSERT INTO symptome (name)
+                            VALUES (:name)';
+
+            $insert_symptome = $bdd->prepare($req);
+            $data['name'] = ucfirst($sympt);
+            $insert_symptome->execute($data);
+
+            // Ici c'est important, on récupère CHAQUE lastInsertId des symptomes insérés et on le place dans l'array
+            array_push($lastIdSymptome, $bdd->lastInsertId());
+          }
+        }
+
+        // Une fois que la maladie et les symptomes ont été insérés, on effectue la jonction
+        // en insérant dans la table corrélation pour chaque symptome en le liant à la maladie en cours
+        foreach ($symptomes as $key => $value){
+          $key--;
+          $data = array();
+          $req = 'INSERT INTO correlation (idMaladie, idSymptome)
+                        VALUES (:idMaladie, :idSymptome)';
+
+          $insert_correlation = $bdd->prepare($req);
+          $data['idMaladie']  = $updateMaladie[0];
+          $data['idSymptome'] = $lastIdSymptome[$key];
+          $insert_correlation->execute($data);
+        }
+    }
+
   }
 }
 
